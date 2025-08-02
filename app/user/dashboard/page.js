@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function UserDashboard() {
+export default function Page() {
   const searchParams = useSearchParams();
   const userEmail = searchParams.get('email') || 'guest@example.com';
 
@@ -11,37 +11,32 @@ export default function UserDashboard() {
   const [reason, setReason] = useState('');
   const [requests, setRequests] = useState([]);
 
-  const fetchRequests = async () => {
-    const res = await fetch('/api/requests');
-    const data = await res.json();
-    const userRequests = data.filter((req) => req.userEmail === userEmail);
-    setRequests(userRequests);
-  };
-
   useEffect(() => {
+    const fetchRequests = async () => {
+      const res = await fetch('/api/requests');
+      const data = await res.json();
+      const userRequests = data.filter((req) => req.userEmail === userEmail);
+      setRequests(userRequests);
+    };
     fetchRequests();
-  }, []);
+  }, [userEmail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRequest = {
-      item: itemName,
-      quantity,
-      reason,
-      userEmail,
-    };
+    const newRequest = { item: itemName, quantity, reason, userEmail };
 
     const res = await fetch('/api/requests', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRequest),
     });
 
     if (res.ok) {
-      await fetchRequests();
+      const res = await fetch('/api/requests');
+      const data = await res.json();
+      const userRequests = data.filter((req) => req.userEmail === userEmail);
+      setRequests(userRequests);
       setItemName('');
       setQuantity('');
       setReason('');
@@ -55,11 +50,7 @@ export default function UserDashboard() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Item Name</label>
-          <select
-            required
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-          >
+          <select required value={itemName} onChange={(e) => setItemName(e.target.value)}>
             <option value="">-- Select Item --</option>
             <option value="Pen">Pen</option>
             <option value="Notebook">Notebook</option>
