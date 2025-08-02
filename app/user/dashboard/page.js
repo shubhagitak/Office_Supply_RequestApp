@@ -11,32 +11,37 @@ export default function Page() {
   const [reason, setReason] = useState('');
   const [requests, setRequests] = useState([]);
 
+  const fetchRequests = async () => {
+    const res = await fetch('/api/requests');
+    const data = await res.json();
+    const userRequests = data.filter((req) => req.userEmail === userEmail);
+    setRequests(userRequests);
+  };
+
   useEffect(() => {
-    const fetchRequests = async () => {
-      const res = await fetch('/api/requests');
-      const data = await res.json();
-      const userRequests = data.filter((req) => req.userEmail === userEmail);
-      setRequests(userRequests);
-    };
     fetchRequests();
   }, [userEmail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRequest = { item: itemName, quantity, reason, userEmail };
+    const newRequest = {
+      item: itemName,
+      quantity,
+      reason,
+      userEmail,
+    };
 
     const res = await fetch('/api/requests', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(newRequest),
     });
 
     if (res.ok) {
-      const res = await fetch('/api/requests');
-      const data = await res.json();
-      const userRequests = data.filter((req) => req.userEmail === userEmail);
-      setRequests(userRequests);
+      await fetchRequests();
       setItemName('');
       setQuantity('');
       setReason('');
