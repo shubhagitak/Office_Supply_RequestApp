@@ -26,8 +26,7 @@ export default function AboutPage() {
             both users and administrators to manage office supplies efficiently.
           </p>
           <p>
-            Whether you're a student, teacher, or employee — this app helps streamline
-            your supply needs with just a few clicks.
+            {"Whether you're a student, teacher, or employee — this app helps streamline your supply needs with just a few clicks."}
           </p>
         </div>
       </main>

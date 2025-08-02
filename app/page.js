@@ -19,16 +19,13 @@ export default function Home() {
         <h1>Welcome to Office Supply App</h1>
         <h2>Your one-stop place to request office items easily</h2>
 
-        {/* About Preview Section */}
         <section className="about-preview">
           <p>
-            Our app helps teams and employees quickly request essential office supplies like pens, staplers, and notebooks.
-            Built using modern tools, it's fast, intuitive, and made for productivity.
+            {"Our app helps teams and employees quickly request essential office supplies like pens, staplers, and notebooks. Built using modern tools, it's fast, intuitive, and made for productivity."}
           </p>
           <Link href="/about" className="read-more-link">Learn more →</Link>
         </section>
 
-        {/* Cards */}
         <h2>Sample Items You Can Request</h2>
         <div className="card-container">
           <div className="card">

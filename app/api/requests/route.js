@@ -6,12 +6,12 @@ export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
-    console.log("🔹 POST Body:", body); // Debug log
+    console.log("🔹 POST Body:", body); 
     const request = new Request(body);
     await request.save();
     return Response.json({ message: 'Request created', request });
   } catch (error) {
-    console.error('❌ POST error:', error); // Log the real error
+    console.error('❌ POST error:', error); 
     return Response.json({ error: 'Server error' }, { status: 500 });
   }
 }

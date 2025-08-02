@@ -13,7 +13,7 @@ export default function RoleLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(''); // reset error before checking
+    setError(''); 
 
     if (!email || !password || !confirm || !role) return;
 
