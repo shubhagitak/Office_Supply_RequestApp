@@ -1,8 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function Page() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const userEmail = searchParams.get('email') || 'guest@example.com';
 
@@ -25,18 +25,11 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRequest = {
-      item: itemName,
-      quantity,
-      reason,
-      userEmail,
-    };
+    const newRequest = { item: itemName, quantity, reason, userEmail };
 
     const res = await fetch('/api/requests', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRequest),
     });
 
@@ -129,5 +122,13 @@ export default function Page() {
         </table>
       )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
